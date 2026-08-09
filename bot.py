@@ -34,6 +34,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+COOKIES_B64 = os.getenv("YOUTUBE_COOKIES_B64")  # cookies YouTube (base64), opsional tapi disarankan untuk hosting cloud
 MAX_DURATION_SECONDS = 180   # durasi klip maksimal (3 menit)
 MAX_FILE_SIZE_MB = 49        # batas upload bot Telegram (~50MB)
 
@@ -42,6 +43,24 @@ LINK, TIME_RANGE = range(2)
 YOUTUBE_REGEX = re.compile(
     r'(https?://)?(www\.)?(youtube\.com/watch\?v=|youtu\.be/|youtube\.com/shorts/)[\w-]+'
 )
+
+COOKIES_FILE_PATH = "/tmp/youtube_cookies.txt"
+
+
+def setup_cookies_file():
+    """Tulis file cookies.txt dari env var (base64) kalau tersedia. Return path atau None."""
+    if not COOKIES_B64:
+        return None
+    try:
+        import base64
+        decoded = base64.b64decode(COOKIES_B64)
+        with open(COOKIES_FILE_PATH, "wb") as f:
+            f.write(decoded)
+        logger.info("File cookies YouTube berhasil disiapkan.")
+        return COOKIES_FILE_PATH
+    except Exception as e:
+        logger.warning(f"Gagal menyiapkan cookies: {e}")
+        return None
 
 
 def parse_time_to_seconds(t: str) -> int:
@@ -126,6 +145,9 @@ async def receive_time_range(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "no_warnings": True,
             "merge_output_format": "mp4",
         }
+        cookies_path = setup_cookies_file()
+        if cookies_path:
+            ydl_opts["cookiefile"] = cookies_path
 
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
