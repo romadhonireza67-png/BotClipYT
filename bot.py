@@ -144,6 +144,11 @@ async def receive_time_range(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "quiet": True,
             "no_warnings": True,
             "merge_output_format": "mp4",
+            "extractor_args": {
+                "youtube": {
+                    "player_client": ["android", "web", "tv"],
+                }
+            },
         }
         cookies_path = setup_cookies_file()
         if cookies_path:
