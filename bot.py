@@ -144,6 +144,11 @@ async def receive_time_range(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "quiet": True,
             "no_warnings": True,
             "merge_output_format": "mp4",
+            "extractor_args": {
+                "youtubepot-bgutilhttp": {
+                    "base_url": ["http://bgutil-ytdlp-pot-provider.railway.internal:4416"]
+                }
+            },
         }
         cookies_path = setup_cookies_file()
         if cookies_path:
