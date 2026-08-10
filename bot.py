@@ -137,7 +137,7 @@ async def receive_time_range(update: Update, context: ContextTypes.DEFAULT_TYPE)
             return [{"start_time": start_sec, "end_time": end_sec}]
 
         ydl_opts = {
-            "format": "best[ext=mp4]/best",
+            "format": "bv*+ba/b",
             "outtmpl": output_template,
             "download_ranges": section_selector,
             "force_keyframes_at_cuts": True,
