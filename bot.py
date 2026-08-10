@@ -147,7 +147,7 @@ async def receive_time_range(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "merge_output_format": "mp4",
             "extractor_args": {
                 "youtube": {
-                    "player_client": ["android", "ios", "tv", "web"],
+                    "player_client": ["android", "ios"],
                 },
                 "youtubepot-bgutilhttp": {
                     "base_url": ["http://bgutil-ytdlp-pot-provider.railway.internal:4416"]
