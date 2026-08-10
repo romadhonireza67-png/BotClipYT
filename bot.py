@@ -141,8 +141,9 @@ async def receive_time_range(update: Update, context: ContextTypes.DEFAULT_TYPE)
             "outtmpl": output_template,
             "download_ranges": section_selector,
             "force_keyframes_at_cuts": True,
-            "quiet": True,
-            "no_warnings": True,
+            "quiet": False,
+            "no_warnings": False,
+            "verbose": True,
             "merge_output_format": "mp4",
             "extractor_args": {
                 "youtubepot-bgutilhttp": {
